@@ -60,6 +60,48 @@ for (i in 1:4) plotTimeSeries(observed = obs[,i],
 #Calculate both measures for the aboveground biomass output and the parameters LUE and tauV. 
 #Do both parameters suggest comparable sensitivities?
 
+#######################
+# with default values #
+########################
+
+# load reference parameter definition (upper, lower prior)
+refPars <- VSEMgetDefaults()
+# this adds one additional parameter for the likelihood standard deviation (see below)
+refPars[12,] <- c(2, 0.1, 4) 
+rownames(refPars)[12] <- "error-sd"
+head(refPars)
+
+# Cv above ground vegetation pool
+# Cr below-ground vegetation pool
+# Cs Carbon in organic matter
+
+# create some simulated test data 
+# generally recommended to start with simulated data before moving to real data
+referenceData <- VSEM(refPars$best[1:11], PAR) # model predictions with reference parameters  
+referenceData[,1] = 1000 * referenceData[,1] 
+oldpar <- par(mfrow = c(2,2))
+for (i in 1:4) plotTimeSeries(observed = referenceData[,i], main = colnames(referenceData)[i])
+
+#######################
+# with LUE 30 % lower #
+#######################
+
+defpar <- VSEMgetDefaults()
+
+LUE_lower_par <- defpar
+LUE_lower_par[3,] <- LUE_lower_par[3,]*0.7
+
+
+tryData <- VSEM(LUE_lower_par$best[1:11], PAR) # model predictions with reference parameters  
+tryData[,1] = 1000 * tryData[,1] 
+oldpar <- par(mfrow = c(2,2))
+for (i in 1:4) plotTimeSeries(observed = tryData[,i], main = colnames(tryData)[i])
+
+
+# Differences between default and LUE change
+
+oldpar <- par(mfrow = c(2,2))
+for (i in 1:4) plotTimeSeries(observed = tryData[,i]-referenceData[,i], main = colnames(tryData)[i])
 
 ```
 
