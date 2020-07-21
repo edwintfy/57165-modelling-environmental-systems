@@ -113,6 +113,41 @@ lowest_Lue_mean/default_data_mean # 0.6907212 from original -> change by 0.30927
 LUE_lower_par[3,2]/defpar[3,1] # 0.25 from original -> change by 75 %
 
 #######################
+# with LUE higher limit#
+#######################
+
+defpar <- VSEMgetDefaults()
+
+LUE_higher_par <- defpar
+LUE_higher_par[3,1] <- LUE_lower_par[3,3] # changed the best LUE value to the highest LUE value
+
+
+tryData <- VSEM(LUE_higher_par$best[1:11], PAR) # model predictions with reference parameters  
+tryData[,1] = 1000 * tryData[,1] 
+# this adds the error - needs to conform to the error definition in the likelihood
+#obs_new <- tryData + rnorm(length(tryData), sd = refPars$best[12]) # change sd to LUE_lower_par?
+oldpar <- par(mfrow = c(2,2))
+for (i in 1:4) plotTimeSeries(observed = tryData[,i], main = colnames(tryData)[i])
+
+
+# Mean for CV (aboveground carbon pool)
+
+highest_Lue_mean <- mean(tryData[,2])
+
+# absolute change
+highest_Lue_mean - default_data_mean # increased by 1.571909
+
+# relative change
+highest_Lue_mean/default_data_mean # 1.434062 from original -> change by 0.434062
+
+# relative input change
+
+# best          highest
+LUE_higher_par[3,3]/defpar[3,1] # 2 from original -> change by 200 %
+
+
+
+#######################
 # with lower limit tauv #
 #######################
 defpar <- VSEMgetDefaults()
