@@ -250,18 +250,24 @@ install.packages("sensitivity")
 library(sensitivity)
 ?morris
 
-trajectories = 200
+# does not work so far, have only NA outputs
 
-YourFun = function(mt) {
-  Cv_mean = numeric(trajectories)
-  for (i in 1:trajectories)
-    tryData = VSEM(mt, PAR)
-    Cv_mean[i] = mean(tryData[,2])
+OurFun <- function(mt) { # mt contains  the model parameters chosen (and changed) by the morris function in each row.
+  vec <- numeric(nrow(mt))
+  for (i in 1:nrow(mt)) {
+  tryData <- VSEM(mt[i,], PAR) # model predictions with reference parameters  
+  vec[i] <- mean(tryData[,2])
+    
+  }
+  return(vec)
 }
 
-mor = morris(YourFun, 6, r=trajectories, design = list(type = "oat", levels = 5, grid.jump = 3))
-mor
+mt2 <- as.matrix(t(defpar$best))
+OurFun(mt2)
 
+trajectories = 20
+mor = morris(OurFun, 6, r=trajectories, design = list(type = "oat", levels = 5, grid.jump = 3))
+mor
 ```
 
 ```{r}
