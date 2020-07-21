@@ -218,7 +218,19 @@ tauV_higher_par[5,3]/defpar[5,1] # 2.083333 from original -> change by 208.33 %
 # ========== 5. Now visualise the sensitivity/model output for aboveground biomass of the first 6 parameters across their range of values (between lower and higher) for 20 steps. ========== 
 #Only change one parameter at a time. What do you notice: are all parameter sensitivities linear?
 
-
+defpar <- VSEMgetDefaults()
+for (i in 1:6) {
+  rangepar = seq(from = defpar[i,2], to = defpar[i,3], length.out = 20)
+  Cv_mean = numeric(20)
+  for (j in length(rangepar)){
+    pars = defpar
+    pars[i,] = rangepar[j]
+    tryData = VSEM(pars$best[1:11], PAR)
+    Cv_mean[j] = mean(tryData[,2])
+  }
+  
+  plot(rangepar,Cv_mean)
+}
 
 ```
 
