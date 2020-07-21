@@ -105,7 +105,7 @@ for (i in 1:4) plotTimeSeries(observed = tryData[,i]-referenceData[,i], main = c
 lowest_Lue_mean - default_data_mean # lowered by 1.120019
 
 # relative change
-lowest_Lue_mean/default_data_mean # 0.6907212 from original -> change by 0.3092788
+lowest_Lue_mean/default_data_mean # 0.6907212 from original -> change by 30.93 %
 
 # relative input change
 
@@ -136,7 +136,7 @@ highest_Lue_mean <- mean(tryData[,2])
 highest_Lue_mean - default_data_mean # increased by 1.571909
 
 # relative change
-highest_Lue_mean/default_data_mean # 1.434062 from original -> change by 0.434062
+highest_Lue_mean/default_data_mean # 1.434062 from original -> change by 43.42 %
 
 # relative input change
 
@@ -175,6 +175,42 @@ lowest_tauV_mean/default_data_mean # 0.6117872 from original -> change by 38.82 
 # best          lowest
 tauV_lower_par[5,2]/defpar[5,1] # 0.3472222 from original -> change by 65.28 %
 
+
+
+
+####################
+# tauV higher limit #
+#####################
+
+
+defpar <- VSEMgetDefaults()
+
+tauV_higher_par <- defpar
+tauV_higher_par[5,1] <- tauV_lower_par[5,3] # changed the best tauV value to the highest tauV value
+
+
+tryData <- VSEM(tauV_higher_par$best[1:11], PAR) # model predictions with reference parameters  
+tryData[,1] = 1000 * tryData[,1] 
+# this adds the error - needs to conform to the error definition in the likelihood
+#obs_new <- tryData + rnorm(length(tryData), sd = refPars$best[12]) # change sd to tauV_lower_par?
+oldpar <- par(mfrow = c(2,2))
+for (i in 1:4) plotTimeSeries(observed = tryData[,i], main = colnames(tryData)[i])
+
+
+# Mean for CV (aboveground carbon pool)
+
+highest_tauV_mean <- mean(tryData[,2])
+
+# absolute change
+highest_tauV_mean - default_data_mean # increased by 0.5861423
+
+# relative change
+highest_tauV_mean/default_data_mean # 1.161856 from original -> change by 16.19 %
+
+# relative input change
+
+# best          highest
+tauV_higher_par[5,3]/defpar[5,1] # 2.083333 from original -> change by 208.33 %
 
 ```
 
