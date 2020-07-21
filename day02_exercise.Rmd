@@ -82,6 +82,8 @@ referenceData[,1] = 1000 * referenceData[,1]
 oldpar <- par(mfrow = c(2,2))
 for (i in 1:4) plotTimeSeries(observed = referenceData[,i], main = colnames(referenceData)[i])
 
+default_data_mean <- mean(referenceData[,2])
+
 #######################
 # with LUE lower limit#
 #######################
@@ -100,6 +102,9 @@ for (i in 1:4) plotTimeSeries(observed = tryData[,i], main = colnames(tryData)[i
 
 oldpar <- par(mfrow = c(2,2))
 for (i in 1:4) plotTimeSeries(observed = tryData[,i]-referenceData[,i], main = colnames(tryData)[i])
+
+# Mean for CV (aboveground carbon pool)
+lowest_Lue_mean <- mean(tryData[,2])
 
 # absolute change
 lowest_Lue_mean - default_data_mean # lowered by 1.120019
@@ -129,7 +134,6 @@ for (i in 1:4) plotTimeSeries(observed = tryData[,i], main = colnames(tryData)[i
 
 
 # Mean for CV (aboveground carbon pool)
-
 highest_Lue_mean <- mean(tryData[,2])
 
 # absolute change
@@ -161,7 +165,6 @@ oldpar <- par(mfrow = c(2,2))
 for (i in 1:4) plotTimeSeries(observed = tryData[,i], main = colnames(tryData)[i])
 
 # Mean for CV (aboveground carbon pool)
-
 lowest_tauV_mean <- mean(tryData[,2])
 
 # absolute change
@@ -198,7 +201,6 @@ for (i in 1:4) plotTimeSeries(observed = tryData[,i], main = colnames(tryData)[i
 
 
 # Mean for CV (aboveground carbon pool)
-
 highest_tauV_mean <- mean(tryData[,2])
 
 # absolute change
