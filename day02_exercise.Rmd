@@ -219,18 +219,20 @@ tauV_higher_par[5,3]/defpar[5,1] # 2.083333 from original -> change by 208.33 %
 #Only change one parameter at a time. What do you notice: are all parameter sensitivities linear?
 
 defpar <- VSEMgetDefaults()
-for (i in 1:6) {
+
+Cv_mean = numeric(20) 
+for (i in 1:6) { # parameters
   rangepar = seq(from = defpar[i,2], to = defpar[i,3], length.out = 20)
-  Cv_mean = numeric(20)
-  for (j in length(rangepar)){
+  for (j in 1:length(rangepar)){
     pars = defpar
     pars[i,] = rangepar[j]
     tryData = VSEM(pars$best[1:11], PAR)
     Cv_mean[j] = mean(tryData[,2])
   }
-  
-  plot(rangepar,Cv_mean)
+  plot(rangepar,Cv_mean, main = rownames(defpar)[i])
 }
+
+# The first two are not linear, LUE increasing linearly, GAMMA decreasing linearly, tauV not linear, tauS no change at all
 
 ```
 
