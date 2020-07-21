@@ -83,26 +83,39 @@ oldpar <- par(mfrow = c(2,2))
 for (i in 1:4) plotTimeSeries(observed = referenceData[,i], main = colnames(referenceData)[i])
 
 #######################
-# with LUE 30 % lower #
+# with LUE lower limit#
 #######################
 
 defpar <- VSEMgetDefaults()
 
 LUE_lower_par <- defpar
-LUE_lower_par[3,] <- LUE_lower_par[3,]*0.7
-
+LUE_lower_par[3,] <- LUE_lower_par[3,2]
 
 tryData <- VSEM(LUE_lower_par$best[1:11], PAR) # model predictions with reference parameters  
 tryData[,1] = 1000 * tryData[,1] 
 oldpar <- par(mfrow = c(2,2))
 for (i in 1:4) plotTimeSeries(observed = tryData[,i], main = colnames(tryData)[i])
 
-
 # Differences between default and LUE change
 
 oldpar <- par(mfrow = c(2,2))
 for (i in 1:4) plotTimeSeries(observed = tryData[,i]-referenceData[,i], main = colnames(tryData)[i])
 
+#######################
+# with lower limit tauv #
+#######################
+defpar <- VSEMgetDefaults()
+tauv_lower_par <- defpar
+tauv_lower_par[5,] <- tauv_lower_par[5,2]
+tryData <- VSEM(tauv_lower_par$best[1:11], PAR) # model predictions with reference parameters  
+tryData[,1] = 1000 * tryData[,1] 
+oldpar <- par(mfrow = c(2,2))
+for (i in 1:4) plotTimeSeries(observed = tryData[,i], main = colnames(tryData)[i])
+
+# Differences between default and tauv change
+
+oldpar <- par(mfrow = c(2,2))
+for (i in 1:4) plotTimeSeries(observed = tryData[,i]-referenceData[,i], main = colnames(tryData)[i])
 ```
 
 ```{r}
