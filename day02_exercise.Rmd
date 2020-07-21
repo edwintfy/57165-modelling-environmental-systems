@@ -101,6 +101,17 @@ for (i in 1:4) plotTimeSeries(observed = tryData[,i], main = colnames(tryData)[i
 oldpar <- par(mfrow = c(2,2))
 for (i in 1:4) plotTimeSeries(observed = tryData[,i]-referenceData[,i], main = colnames(tryData)[i])
 
+# absolute change
+lowest_Lue_mean - default_data_mean # lowered by 1.120019
+
+# relative change
+lowest_Lue_mean/default_data_mean # 0.6907212 from original -> change by 0.3092788
+
+# relative input change
+
+# best          lowest
+LUE_lower_par[3,2]/defpar[3,1] # 0.25 from original -> change by 75 %
+
 #######################
 # with lower limit tauv #
 #######################
