@@ -15,6 +15,10 @@ Soil organic carbon is split into four active compartments and a small amount of
 - HUM (humified OM).   
 - IOM (inert organic matter)
 Each compartment decomposes by a first-order process with its own characteristic rate. The IOM compartment is resistant to decomposition.
+    What is the assumption on splitting organic inputs into decomposable and resistant plant material? 
+              Incoming plant carbon is split between DPM and RPM, depending on the DPM/RPM ratio of the particular incoming plant material.
+    In how far is this assumption different from the assumption on the split between microbial biomass and humified substances?
+              The proportion that goes to CO2 and to BIO + HUM is determined by the clay content of the soil. The proportion that goes to CO2 and to BIO + HUM is determined by the clay content of the soil
 
 
 ```{r }
