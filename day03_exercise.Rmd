@@ -40,9 +40,7 @@ j. Use the function fT.RothC to calculate the temperature effect
 ```{r }
 reference <- read.csv("~/Documents/R/57165 Modelling Environmental Systems/day03/reference_2000-2100.csv")
 scenario <- read.csv("~/Documents/R/57165 Modelling Environmental Systems/day03/rcp8.5_2000-2100.csv")
-
 library(SoilR)         # install.packages("SoilR")
-
 my_RothC <- RothCModel(1:nrow(reference) , clay = 48 , In = 2.7)
 my_RothC.pool <- getC(my_RothC)          # the carbon pools
 ```
@@ -59,17 +57,12 @@ moisture.effect <- fW.RothC(P = reference$Precip ,                              
                             pClay = 48) 
 # ?fT.RothC      # A scalar or a vector containing the effects of temperature on decomposition rates (unitless)
 temperature.effect <- fT.RothC(Temp = reference$Temp)
-
 my_RothC <- RothCModel(1:nrow(reference) , clay = 48 , In = 2.7 , xi = data.frame(time = 1:nrow(reference) , moisture.effect$b * temperature.effect))
 my_RothC.pool <- getC(my_RothC)          # the carbon pools
-
-
 # visualization
-
 my_RothC.pool_df <- data.frame(my_RothC.pool)
 colnames(my_RothC.pool_df) <- c("DPM" , "RPM" , "BIO" , "HUM" , "IOM")
 my_RothC.pool_df$time <- 1:nrow(my_RothC.pool_df)
-
 library(ggplot2) ; library(dplyr)
 tidyr::pivot_longer(my_RothC.pool_df , cols = c("DPM" , "RPM" , "BIO" , "HUM" , "IOM") , values_to = "stock" , names_to = "pool") %>% 
   ggplot(aes(x = time , y = stock)) +
@@ -86,21 +79,16 @@ moisture.effect_scenario <- fW.RothC(P = scenario$Precip ,                      
                                      S.Thick = 25 ,                                                               # Soil thickness in cm
                                      pClay = 48) 
 temperature.effect_scenario <- fT.RothC(Temp = scenario$Temp)
-
 my_RothC_scenario <- RothCModel(1:nrow(scenario) , 
                                 clay = 48 , 
                                 In = 2.7 , 
                                 xi = data.frame(time = 1:nrow(scenario) , moisture.effect_scenario$b * temperature.effect_scenario) , 
                                 C0 = my_RothC.pool[nrow(my_RothC.pool) , ])
 my_RothC.pool_scenario <- getC(my_RothC_scenario)          # the carbon pools
-
-
 # visualization
-
 my_RothC.pool_scenario_df <- data.frame(my_RothC.pool_scenario)
 colnames(my_RothC.pool_scenario_df) <- c("DPM" , "RPM" , "BIO" , "HUM" , "IOM")
 my_RothC.pool_scenario_df$time <- 1:nrow(my_RothC.pool_scenario_df)
-
 tidyr::pivot_longer(my_RothC.pool_scenario_df , cols = c("DPM" , "RPM" , "BIO" , "HUM" , "IOM") , values_to = "stock" , names_to = "pool") %>% 
   ggplot(aes(x = time , y = stock)) +
   geom_line(aes(color = pool)) +
@@ -119,6 +107,7 @@ ggplot(experimentalData , aes(x = time , y = cummCO2)) +
   geom_point() +
   labs(x = "time (days)" , y = "mg(C)/g(soil)" , title = "cumulative CO2")
 
+ks = c(k1=0.8,k2=0.00605)
 my_TwopFeedbackModel <- TwopFeedbackModel(t = 1:nrow(reference),
                                           ks = c(k1=0.8,k2=0.00605),
                                           a21 = 0.2*ks[1],
@@ -126,16 +115,14 @@ my_TwopFeedbackModel <- TwopFeedbackModel(t = 1:nrow(reference),
                                           C0 = c(C10=5,C20=5),
                                           In = 2.7,
                                           xi = data.frame(time = 1:nrow(reference) , moisture.effect$b * temperature.effect))
-getC(my_TwopFeedbackModel)
+#getC(my_TwopFeedbackModel)
 my_getAccum <- data.frame(getAccumulatedRelease(my_TwopFeedbackModel))
-
 my_getAccum$time <- 1:nrow(my_getAccum)
 colnames(my_getAccum) <- c("pool1" , "pool2" , "time")
-
 tidyr::pivot_longer(my_getAccum , cols = c("pool1" , "pool2") , values_to = "value" , names_to = "pool") %>% 
   ggplot(aes(x = time , y = value)) +
   geom_line(aes(color = pool))
-
 ```
+
 
 
