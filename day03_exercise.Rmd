@@ -21,10 +21,6 @@ Each compartment decomposes by a first-order process with its own characteristic
               The proportion that goes to CO2 and to BIO + HUM is determined by the clay content of the soil. The proportion that goes to CO2 and to BIO + HUM is determined by the clay content of the soil
 
 
-```{r }
-
-```
-
 ### 2. Run the RothC model using two different climate datasets (reference, scenario). As reference, repeat 1 year climate data of the Princeton dataset (see day 1) one hundred times. Use the climate scenario 2000-2100 you created on day 1. Describe the differences in soil C stocks in the C pools. Please note that most likely, the C pools are not in steady state after 100 years. For this reason, use the reference scenario to determine a reasonable spinup run length for the model. Determine the spinup run length using repetitions of the reference scenario. Add this run length prior to both 100 years climate scenarios. Additional information:
 a. Use the RothCModel function of the SoilR package
 b. Assume a topsoil organic layer of 25 cm
