@@ -1,0 +1,39 @@
+---
+title: "Day 03 Exercise"
+author: "Tsun Fung Yau, Eva Lorrez, Tze-Li"
+date: "7/22/2020"
+output: pdf_document
+---
+
+### 1. Get familiar with the RothC model using the RothC guide (./Materials). How many pools are used in RothC and what is the assumption on splitting organic inputs into decomposable and resistant plant material? In how far is this assumption different from the assumption on the split between microbial biomass and humified substances?
+```{r }
+
+```
+
+### 2. Run the RothC model using two different climate datasets (reference, scenario). As reference, repeat 1 year climate data of the Princeton dataset (see day 1) one hundred times. Use the climate scenario 2000-2100 you created on day 1. Describe the differences in soil C stocks in the C pools. Please note
+a. Use the RothCModel function of the SoilR package
+b. Assume a topsoil organic layer of 25 cm
+c. Assume a soil organic carbon (SOC) of 69.7 Mg ha-1
+d. Assume a clay content of 48%
+e. Assume a C input of 2.7 Mg ha-1 yr-1
+f. Assume a pan evaporation of Evp=data.frame(Month=1:12, Evp=c(12, 18, 35, 58, 82,
+90, 97, 84, 54, 31, 14, 10)) for each year, regardless of scenario
+g. Estimate inert organic matter (IOM parameter) based on Falloon method:
+FallIOM=0.049*SOC^(1.139)
+h. Environmental conditions are considered by providing parameter xi. Calculate xi as
+the product of the temperature and moisture effect
+i. Use the function fW.RothC for the moisture effect (here you need clay content and
+topsoil organic layer thickness provided above); use column b!
+j. Use the function fT.RothC to calculate the temperature effect
+
+```{r }
+
+```
+
+### 3. Decomposition rates are a fundamental parameter for soil carbon models. They can be obtained from laboratory experiments. Use the dataset “./Materials/00_experimentalData.txt” of cumulative CO2 over time to fit a one- pool model and a two-pool model. Create a function that runs the SoilR function “TwopFeedbackModel” and “OnepModel” with one parameters vector. The function has to return the CO2 released from all pools involved (read on “getAccumulatedRelease”). For the optimization of the parameters, use the modFit function of the FME package. Be aware that modFit takes a cost function that is optimized. It is probably the most convenient to define a costfunction (costf) that has one argument (parameter vector) and calculates the model output based on the parameter vector and returns the values returned from the FME function modCost. Plot the cumulative CO2 release for both models. Why does it make sense to have multi-pool models?
+
+```{r }
+
+```
+
+
