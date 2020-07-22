@@ -6,6 +6,17 @@ output: pdf_document
 ---
 
 ### 1. Get familiar with the RothC model using the RothC guide (./Materials). How many pools are used in RothC and what is the assumption on splitting organic inputs into decomposable and resistant plant material? In how far is this assumption different from the assumption on the split between microbial biomass and humified substances?
+
+#####How many pools are used in RothC?        
+Soil organic carbon is split into four active compartments and a small amount of inert organic matter (IOM).   
+- DPM (decomposable plant material),     
+- RPM (resistant plant material),     
+- BIO (microbial biomass),     
+- HUM (humified OM).   
+- IOM (inert organic matter)
+Each compartment decomposes by a first-order process with its own characteristic rate. The IOM compartment is resistant to decomposition.
+
+
 ```{r }
 
 ```
