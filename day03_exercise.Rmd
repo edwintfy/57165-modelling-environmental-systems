@@ -38,8 +38,8 @@ topsoil organic layer thickness provided above); use column b!
 j. Use the function fT.RothC to calculate the temperature effect
 
 ```{r }
-reference <- read.csv("reference_2000-2100.csv")
-scenario <- read.csv("rcp8.5_2000-2100.csv")
+reference <- read.csv("~/Documents/R/57165 Modelling Environmental Systems/day03/reference_2000-2100.csv")
+scenario <- read.csv("~/Documents/R/57165 Modelling Environmental Systems/day03/rcp8.5_2000-2100.csv")
 
 library(SoilR)         # install.packages("SoilR")
 
@@ -113,7 +113,7 @@ tidyr::pivot_longer(my_RothC.pool_scenario_df , cols = c("DPM" , "RPM" , "BIO" ,
 ### 3. Decomposition rates are a fundamental parameter for soil carbon models. They can be obtained from laboratory experiments. Use the dataset “./Materials/00_experimentalData.txt” of cumulative CO2 over time to fit a one- pool model and a two-pool model. Create a function that runs the SoilR function “TwopFeedbackModel” and “OnepModel” with one parameters vector. The function has to return the CO2 released from all pools involved (read on “getAccumulatedRelease”). For the optimization of the parameters, use the modFit function of the FME package. Be aware that modFit takes a cost function that is optimized. It is probably the most convenient to define a costfunction (costf) that has one argument (parameter vector) and calculates the model output based on the parameter vector and returns the values returned from the FME function modCost. Plot the cumulative CO2 release for both models. Why does it make sense to have multi-pool models?
 
 ```{r }
-experimentalData <- read.table("00_experimentalData.txt" , header = TRUE)
+experimentalData <- read.table("~/Documents/R/57165 Modelling Environmental Systems/day03/00_experimentalData.txt" , header = TRUE)
 
 ggplot(experimentalData , aes(x = time , y = cummCO2)) +
   geom_point() +
