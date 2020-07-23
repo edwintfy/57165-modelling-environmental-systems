@@ -19,14 +19,15 @@ Serial
 
 
 ```{r}
-?ThreepairMMmodel # 6 pools
-?ThreepFeedbackModel # with feedback
-?ThreepFeedbackModel14
-?ThreepParallelModel # parallel
-?ThreepParallelModel14
-?ThreepSeriesModel # -----> this is the right one
-?ThreepSeriesModel14 
+library(SoilR) ; library(dplyr)
 
+#?ThreepairMMmodel # 6 pools
+#?ThreepFeedbackModel # with feedback
+#?ThreepFeedbackModel14
+#?ThreepParallelModel # parallel
+#?ThreepParallelModel14
+#?ThreepSeriesModel # -----> this is the right one
+#?ThreepSeriesModel14 
 
 ```
 
@@ -34,29 +35,28 @@ Serial
 
 ### 2 use k-rates of 0.8, 0.7, 0.09 and assume mineralization of 10 units at a delta value of 5per mil to run the model for 100 years at monthly resolution. Explain the results (use getC(model) and getReleaseFlux(model))
 ```{r}
-
 a21= 0.8*0.99  # with a loss rate of 1%
 a32 = 0.7*0.99 # with a loss rate of 1%
-Nmodel <- ThreepSeriesModel(t = 1:1200, ks = c(0.8, 0.7, 0.09), a21= a21, a32 = a32, C0=c(1, 0, 0), In = 10, xi = 1, solver = deSolve.lsoda.wrapper, pass = FALSE)
+
+N.model <- ThreepSeriesModel(t = 1:1200, 
+                             ks = c(0.8, 0.7, 0.09), 
+                             a21 = a21, a32 = a32, 
+                             C0 = c(0, 0, 0), 
+                             In = 10,
+                             xi = 1, solver = deSolve.lsoda.wrapper, pass = FALSE)
+
 
 # get the pools
-
-Npools = getC(Nmodel) 
-#Npools
-
-plot(Npools[,1])
-plot(Npools[,2])
-plot(Npools[,3])
-
+N.pools = getC(N.model) 
+# N.pools
+plot(N.pools[,3] , type = "l")
+lines(N.pools[,2] , col = "red")
+lines(N.pools[,1] , col = 'blue')
 # get the fluxes
-
-Rflux <- getReleaseFlux(Nmodel)
-
-plot(Rflux[,1])
-plot(Rflux[,2])
-plot(Rflux[,3])
-
-
+Rflux <- getReleaseFlux(N.model)
+plot(Rflux[,3] , type = "l")
+lines(Rflux[,2] , col = "red")
+lines(Rflux[,1] , col = "blue")
 
 ```
 
@@ -64,14 +64,32 @@ plot(Rflux[,3])
 
 ### 3 Based on the model output, calculate the isotopic delta value for ammonium (use a fractionation factor of 𝜀=-20) according to the closed system Rayleigh equation 𝛿𝑠𝑢𝑏𝑠𝑡𝑟𝑎𝑡 = 𝛿𝑠𝑢𝑏𝑠𝑡𝑟𝑎𝑡,0 + 𝜀 ln(𝑓) . The lecture material tells you about the residual fraction f.
 ```{r}
+# f: how much substance remains (at t-1)/ how much released
 
+E <- -20
+delta <- c(5,5)
+for(i in 3:nrow(N.pools)){
+  delta[i] <- delta[i-1] + E * log(1-1/(N.pools[i-1,1] / Rflux[i,1]))
+}
+
+plot(delta)
 
 ```
 
 
 ### 4 Show if the delta value of ammonium a sensitive parameter for the amount of N2O produced during nitrification. Dont forget to consider mixing!
 ```{r}
+# mixing
 
+E <- -20
+delta <- c(5,5)
+delta_mix <- c(5,5)
+for(i in 3:nrow(N.pools)){
+  delta[i] = (5*10 / (10 + N.pools[i-1,1])) + (delta[i-1]*N.pools[i-1,1] / (10 + N.pools[i-1,1]))
+  delta[i] <- delta[i] + E * log(1-1/(N.pools[i-1,1] / Rflux[i,1]))
+}
+
+plot(delta , type = "l")
 
 ```
 
