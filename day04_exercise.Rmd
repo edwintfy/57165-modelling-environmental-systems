@@ -35,20 +35,31 @@ Serial
 ### 2 use k-rates of 0.8, 0.7, 0.09 and assume mineralization of 10 units at a delta value of 5per mil to run the model for 100 years at monthly resolution. Explain the results (use getC(model) and getReleaseFlux(model))
 ```{r}
 
-a21= 0.8*0.99
-a32 = 0.7*0.99
+a21= 0.8*0.99  # with a loss rate of 1%
+a32 = 0.7*0.99 # with a loss rate of 1%
 Nmodel <- ThreepSeriesModel(t = 1:1200, ks = c(0.8, 0.7, 0.09), a21= a21, a32 = a32, C0=c(1, 0, 0), In = 10, xi = 1, solver = deSolve.lsoda.wrapper, pass = FALSE)
 
+# get the pools
 
 Npools = getC(Nmodel) 
-Npools
+#Npools
 
 plot(Npools[,1])
 plot(Npools[,2])
 plot(Npools[,3])
 
+# get the fluxes
+
+Rflux <- getReleaseFlux(Nmodel)
+
+plot(Rflux[,1])
+plot(Rflux[,2])
+plot(Rflux[,3])
+
+
 
 ```
+
 
 
 ### 3 Based on the model output, calculate the isotopic delta value for ammonium (use a fractionation factor of 𝜀=-20) according to the closed system Rayleigh equation 𝛿𝑠𝑢𝑏𝑠𝑡𝑟𝑎𝑡 = 𝛿𝑠𝑢𝑏𝑠𝑡𝑟𝑎𝑡,0 + 𝜀 ln(𝑓) . The lecture material tells you about the residual fraction f.
