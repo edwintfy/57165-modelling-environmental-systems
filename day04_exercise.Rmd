@@ -49,14 +49,16 @@ N.model <- ThreepSeriesModel(t = 1:1200,
 # get the pools
 N.pools = getC(N.model) 
 # N.pools
-plot(N.pools[,3] , type = "l")
+plot(N.pools[,3] , type = "l" , xlab = "time (month)" , ylab = 'ammonium pool')
 lines(N.pools[,2] , col = "red")
 lines(N.pools[,1] , col = 'blue')
+legend("right" , lty = c(1,1,1) , col = c("blue" , "red" , "black") , legend = c("ammonium pool" , "nitrate pool" , "sink pool"))
 # get the fluxes
 Rflux <- getReleaseFlux(N.model)
-plot(Rflux[,3] , type = "l")
+plot(Rflux[,3] , type = "l" , xlab = "time (month)" , yab = "N2O release")
 lines(Rflux[,2] , col = "red")
 lines(Rflux[,1] , col = "blue")
+legend("right" , lty = c(1,1,1) , col = c("blue" , "red" , "black") , legend = c("ammonium pool" , "nitrate pool" , "sink pool"))
 
 ```
 
@@ -72,7 +74,7 @@ for(i in 3:nrow(N.pools)){
   delta[i] <- delta[i-1] + E * log(1-1/(N.pools[i-1,1] / Rflux[i,1]))
 }
 
-plot(delta)
+plot(delta , type = "l" , xlab = "time" , ylab = "delta value")
 
 ```
 
@@ -88,7 +90,7 @@ for(i in 3:nrow(N.pools)){
   delta[i] <- delta[i] + E * log(1-1/(N.pools[i-1,1] / Rflux[i,1]))
 }
 
-plot(delta , type = "l")
+plot(delta , type = "l" , xlab = "time" , ylab = "delta value")
 
 
 # with different loss rates
